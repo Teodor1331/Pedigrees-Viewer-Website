@@ -35,4 +35,26 @@ source env_name/bin/activate
 ```
 
 If everything is done correct, you will see the name of the environment in the beginning of the command line, surrounded by brackets. The name of the environment
-can by anything, so you can choose what to be.
+can by anything, so you can choose what to be. This will be needed to install Django in your virtual environment. Additionally, you can install Selenium if your want to run the tests in the folder "Tests". For this you should install Selenium. The two installation commands are:
+
+```
+pip3 install django
+pip3 install -U selenium
+```
+
+After this you can check if Django and Selenium are installed correcly by typing ```django-adming --version``` for Django and in the Python 3 IDLE console for Selenium. (To switch to Python 3 console, just type ```python3```):
+
+```
+import selenium
+help(selenium)
+
+CTRL+Q
+
+exit()
+```
+
+Then you should run the server while the virtual environment is still activated with the command:
+
+```
+python3 manage.py runserver
+```
