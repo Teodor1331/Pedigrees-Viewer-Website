@@ -59,7 +59,6 @@ def draw_pedigree(family):
     <head>
     </head>
     <body style="width:100%;height:100%;margin:0;">
-    </body>
         <svg height="auto" width="auto">""") + str("""
     """) + draw_rectangles(250, 100, 40, 40, family.father.treat) + str("""
     """) + draw_circles(400, 120, 23, family.mother.treat) + str("""
@@ -70,7 +69,11 @@ def draw_pedigree(family):
         html_code += draw_line(333, 120, 333, 210) + str("""
     """) + draw_line(333 - pixels/2, 210, 333 + pixels/2, 210) + str("""
     """) + draw_children_shapes(family, 333 - pixels/2, 210, 333 + pixels/2, 210) + str("""\n\t\t</svg>
-    <body>
+    </body>
 </html>""")
+    else:
+        html_code += str("""\t</svg>
+    </body>
+</html""")
 
     return html_code
