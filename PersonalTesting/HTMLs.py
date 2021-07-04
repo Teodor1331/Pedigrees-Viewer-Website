@@ -42,9 +42,9 @@ def draw_children_shapes(family, start_x, start_y, end_x, end_y):
     for child in family.children:
         html_code += str("""\n\t""") + draw_line(counter, start_y, counter, start_y + 40)
 
-        if child.sex == "2":
+        if child.sex == "1":
             html_code += str("""\n\t""") + draw_rectangles(counter - 20, start_y + 40, 40, 40, child.treat)
-        elif child.sex == "1":
+        elif child.sex == "2":
             html_code += str("""\n\t""") + draw_circles(counter, start_y + 63, 23, child.treat)
 
         counter = counter + offset_pixels

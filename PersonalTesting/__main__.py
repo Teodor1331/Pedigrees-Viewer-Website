@@ -1,9 +1,11 @@
 from Individuals import Individual, Family
 from HTMLs import draw_rectangles, draw_circles, draw_line, draw_children_shapes, draw_pedigree
+from PDFs import PDF_Model
 
 import os
 import sys
 import csv
+
 
 
 list_inidividuals_file = None
@@ -84,3 +86,10 @@ for family in list_individuals:
     message = draw_pedigree(family)
     new_html_file.write(message)
     new_html_file.close()
+
+
+
+
+for family in list_individuals:
+    pdf_mode = PDF_Model(family, None, None, None)
+    pdf_mode.draw_family()
