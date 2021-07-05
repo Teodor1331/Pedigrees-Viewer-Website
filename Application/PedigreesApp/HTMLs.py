@@ -53,26 +53,21 @@ def draw_children_shapes(family, start_x, start_y, end_x, end_y):
 def draw_pedigree(family):
     pixels = (len(family.children) - 1) * 90
 
-    html_code = str("""<!DOCTYPE html>
-<html style="width:100%;height:100%">
-    <head>
-    </head>
-    <body style="width:100%;height:100%;margin:0;">
-        <svg height="auto" width="auto">""") + str("""
-    """) + draw_rectangles(250, 100, 40, 40, family.father.treat) + str("""
-    """) + draw_circles(400, 120, 23, family.mother.treat) + str("""
-    """) + draw_line(290, 120, 377, 120) + str("""
-    """)
+    html_code = str("""{% extends 'base.html' %}
+{% block content %}
+    <svg height="auto" width="auto">""") + str("""
+""") + draw_rectangles(250, 100, 40, 40, family.father.treat) + str("""
+""") + draw_circles(400, 120, 23, family.mother.treat) + str("""
+""") + draw_line(290, 120, 377, 120) + str("""
+""")
     
     if len(family.children) > 0:
         html_code += draw_line(333, 120, 333, 210) + str("""
-    """) + draw_line(333 - pixels/2, 210, 333 + pixels/2, 210) + str("""
-    """) + draw_children_shapes(family, 333 - pixels/2, 210, 333 + pixels/2, 210) + str("""\n\t\t</svg>
-    </body>
-</html>""")
+""") + draw_line(333 - pixels/2, 210, 333 + pixels/2, 210) + str("""
+""") + draw_children_shapes(family, 333 - pixels/2, 210, 333 + pixels/2, 210) + str("""\n\t\t</svg>
+{% endblock content %}""")
     else:
         html_code += str("""\t</svg>
-    </body>
-</html""")
+{% endblock content %}""")
 
     return html_code

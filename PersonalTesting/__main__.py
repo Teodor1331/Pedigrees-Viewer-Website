@@ -1,12 +1,11 @@
-from Individuals import Individual, Family
+from Models import Individual, Family
 from HTMLs import draw_rectangles, draw_circles, draw_line, draw_children_shapes, draw_pedigree
 from PDFs import PDF_Model
 
 import os
 import sys
 import csv
-
-
+import networkx as nx
 
 list_inidividuals_file = None
 
@@ -74,22 +73,36 @@ def different_families():
 
 
 
-list_individuals = different_families()
+list_families = different_families()
 
-for family in list_individuals:
+for family in list_families:
+    family.add_to_graphs()
     print(family, '\n')
 
 
-for family in list_individuals:
+for family in list_families:
     name_html_file = str(family.identifier) + ".html"
     new_html_file = open(name_html_file, "w")
     message = draw_pedigree(family)
     new_html_file.write(message)
     new_html_file.close()
 
-
-
-
-for family in list_individuals:
+for family in list_families:
     pdf_mode = PDF_Model(family, None, None, None)
     pdf_mode.draw_family()
+
+
+print("The mating vertices are:\n")
+
+for vertex in Family.vertices_matings:
+    print(vertex)
+    
+print("The subships vertices are:\n")
+
+for vertex in Family.vertices_subships:
+    print(vertex)
+
+
+print("The individuals vertices are:\n")
+for vertex in Individual.vertices_individuals:
+    print(vertex)

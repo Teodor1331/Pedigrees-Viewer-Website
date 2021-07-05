@@ -65,5 +65,3 @@ class PDF_Model():
 
         name_html_file = './' + str(self.family.identifier) + '.pdf'
         plt.savefig(name_html_file, format="pdf")
-        #plt.show()
-
