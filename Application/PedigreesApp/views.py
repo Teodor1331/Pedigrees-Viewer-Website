@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.template.response import TemplateResponse
+
 
 # Create your views here.
 
 from . import list_families
+from . import draw_specific_family
+
 
 def view_pedigrees(request, *args, **kwargs):
     list_pedigrees = []
@@ -19,8 +21,14 @@ def view_pedigrees(request, *args, **kwargs):
 
     dictionary = {
         "pedigrees": list_pedigrees,
-        "file_names": list_file_names
+        "file_names": list_file_names,
     }
+    
+
+    if 'list' in request.POST:
+        returned = draw_specific_family(request.POST['list'])
+        dictionary['answer'] = request.POST['list']
+        dictionary['message'] = returned
 
     return render(request, "view_pedigrees.html", dictionary)
 

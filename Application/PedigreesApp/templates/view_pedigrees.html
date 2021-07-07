@@ -2,17 +2,48 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-<form method="post">
-    <select name="list" id="list" accesskey="target">
-        {% for file_name in file_names %}
-        <option value="{{ file_name }}">{{ file_name }}</option>
+
+<form method="POST">
+    {% csrf_token %}
+    <select name="list" id="list">
+        {% for pedigree in pedigrees %}
+        <option value="{{ pedigree }}">{{ pedigree }}</option>
         {% endfor %}
     </select>
-    <input type=button value="Select" />
-    <!-- <input type=button value="Select" onclick="showPedigree()" /> -->
+    <input type="submit" value="Select" />
  </form>
+ <p>{{ answer }}
+
+ </p>
+
+<div id="div2">
+    <style type="text/css">
+        div#div2 {
+            display: none;
+        }
+    </style>
+    {{ message }}
+</div>
 
 <div id="div1">
+    <script>
+        var string = "{{ message|slugify }}";
 
+        var shape_string = document.getElementById("div2").innerHTML;
+
+        shape_string = shape_string.replaceAll("&lt;", "<");
+        shape_string = shape_string.replaceAll("&gt;", ">");
+        shape_string = shape_string.replaceAll("\t", "");
+        shape_string = shape_string.replaceAll("\n", "");
+        
+        console.log(string)
+        console.log(shape_string);
+
+        var new_string = '<svg height="100%" width="100%"><rect x="250" y="100" width="40" height="40" style="fill:red;stroke-width:1;stroke:black"></rect><circle cx="400" cy="120" r="23" stroke="black" stroke-width="1" fill="white"></circle><line x1="290" y1="120" x2="377" y2="120" style="stroke:black;stroke-width:1"></line><line x1="333" y1="120" x2="333" y2="210" style="stroke:black;stroke-width:1"></line><line x1="153.0" y1="210" x2="513.0" y2="210" style="stroke:black;stroke-width:1"></line><line x1="153.0" y1="210" x2="153.0" y2="250" style="stroke:black;stroke-width:1"></line><rect x="133.0" y="250" width="40" height="40" style="fill:red;stroke-width:1;stroke:black"></rect><line x1="243.0" y1="210" x2="243.0" y2="250" style="stroke:black;stroke-width:1"></line><rect x="223.0" y="250" width="40" height="40" style="fill:white;stroke-width:1;stroke:black"></rect><line x1="333.0" y1="210" x2="333.0" y2="250" style="stroke:black;stroke-width:1"></line><circle cx="333.0" cy="273" r="23" stroke="black" stroke-width="1" fill="red"></circle><line x1="423.0" y1="210" x2="423.0" y2="250" style="stroke:black;stroke-width:1"></line><circle cx="423.0" cy="273" r="23" stroke="black" stroke-width="1" fill="white"></circle><line x1="513.0" y1="210" x2="513.0" y2="250" style="stroke:black;stroke-width:1"></line><rect x="493.0" y="250" width="40" height="40" style="fill:red;stroke-width:1;stroke:black"></rect></svg>';
+
+        //document.write(new_string)
+        document.write(shape_string)
+    </script>
 </div>
+
 {% endblock content %}

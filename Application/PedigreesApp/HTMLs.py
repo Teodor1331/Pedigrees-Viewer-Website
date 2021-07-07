@@ -26,7 +26,7 @@ def draw_circles(center_position_x, center_position_y, radius, affected):
 
 def draw_line(x1, y1, x2, y2):
     connection_1 = str('\t\t\t<line x1="') + str(x1) + str('" y1="') + str(y1)
-    connection_2 = str('" x2="') + str(x2) + str('" y2="') + str(y2) + str('" style="stroke:rgb(0,0,0);stroke-width:1"></line>')
+    connection_2 = str('" x2="') + str(x2) + str('" y2="') + str(y2) + str('" style="stroke:black;stroke-width:1"></line>')
     return connection_1 + connection_2
 
 def draw_children_shapes(family, start_x, start_y, end_x, end_y):
@@ -53,9 +53,8 @@ def draw_children_shapes(family, start_x, start_y, end_x, end_y):
 def draw_pedigree(family):
     pixels = (len(family.children) - 1) * 90
 
-    html_code = str("""{% extends 'base.html' %}
-{% block content %}
-        <svg height="auto" width="auto">""") + str("""
+    html_code = str("""
+    <svg height="100%" width="100%">""") + str("""
 """) + draw_rectangles(250, 100, 40, 40, family.father.treat) + str("""
 """) + draw_circles(400, 120, 23, family.mother.treat) + str("""
 """) + draw_line(290, 120, 377, 120) + str("""
@@ -64,10 +63,8 @@ def draw_pedigree(family):
     if len(family.children) > 0:
         html_code += draw_line(333, 120, 333, 210) + str("""
 """) + draw_line(333 - pixels/2, 210, 333 + pixels/2, 210) + str("""
-""") + draw_children_shapes(family, 333 - pixels/2, 210, 333 + pixels/2, 210) + str("""\n\t\t</svg>
-{% endblock content %}""")
+""") + draw_children_shapes(family, 333 - pixels/2, 210, 333 + pixels/2, 210) + str("""\n\t\t</svg>""")
     else:
-        html_code += str("""\t\t</svg>
-{% endblock content %}""")
+        html_code += str("""\t\t</svg>""")
 
     return html_code

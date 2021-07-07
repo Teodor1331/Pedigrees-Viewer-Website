@@ -3,8 +3,11 @@ from .HTMLs import draw_rectangles, draw_circles, draw_line, draw_children_shape
 from .PDFs import PDF_Model
 
 import os
+import os.path
 import sys
 import shutil
+
+from os import path
 
 import csv
 import networkx as nx
@@ -73,21 +76,19 @@ def different_families():
 
     return set_different_families
 
-
 list_families = different_families()
 
 for family in list_families:
     family.add_to_graphs()
     print(family, '\n')
 
+def draw_specific_family(specific_family):
+    global list_families
 
-for family in list_families:
-    name_html_file = str(family.identifier) + ".html"
-    new_html_file = open(name_html_file, "w")
-    message = draw_pedigree(family)
-    new_html_file.write(message)
-    new_html_file.close()
-    shutil.move("./" + name_html_file, "./PedigreesApp/templates/" + name_html_file)
+    for family in list_families:
+        if specific_family == str(family.identifier):
+            message = draw_pedigree(family)
+            return message
 
 for family in list_families:
     pdf_mode = PDF_Model(family, None, None, None)

@@ -73,25 +73,42 @@ def different_families():
 
 
 
+
 list_families = different_families()
 
 for family in list_families:
     family.add_to_graphs()
     print(family, '\n')
 
+def draw_specific_family(specific_family):
+    global list_families
 
+    for family in list_families:
+        if specific_family == str(family.identifier):
+            name_html_file = str(family.identifier) + ".html"
+            new_html_file = open(name_html_file, "w")
+            message = draw_pedigree(family)
+            new_html_file.write(message)
+            new_html_file.close()
+            break
+
+"""
 for family in list_families:
     name_html_file = str(family.identifier) + ".html"
     new_html_file = open(name_html_file, "w")
     message = draw_pedigree(family)
     new_html_file.write(message)
     new_html_file.close()
+"""
+
+draw_specific_family("ped1")
+draw_specific_family("ped3")
 
 for family in list_families:
     pdf_mode = PDF_Model(family, None, None, None)
     pdf_mode.draw_family()
 
-
+"""
 print("The mating vertices are:\n")
 
 for vertex in Family.vertices_matings:
@@ -106,3 +123,4 @@ for vertex in Family.vertices_subships:
 print("The individuals vertices are:\n")
 for vertex in Individual.vertices_individuals:
     print(vertex)
+"""
