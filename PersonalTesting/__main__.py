@@ -1,4 +1,4 @@
-from Models import Individual, Family
+from Models import Individual, Family, Graph
 from HTMLs import draw_rectangles, draw_circles, draw_line, draw_children_shapes, draw_pedigree
 from PDFs import PDF_Model
 
@@ -7,7 +7,9 @@ import sys
 import csv
 import networkx as nx
 
-list_inidividuals_file = None
+from collections import defaultdict
+
+list_individuals_file = None
 
 def read_pedigree_file():
     file = open(sys.argv[1], "r")
@@ -42,6 +44,8 @@ def different_pedigrees():
 
 def different_families():
     global list_individuals_file
+    global list_different_individuals
+
     set_different_families_names =  different_pedigrees()
     set_different_families = []
     list_different_individuals = []
@@ -57,7 +61,7 @@ def different_families():
     for individual in list_different_individuals:
         if individual.father == "0" and individual.mother == "0":
             for pedigree in set_different_families:
-                if pedigree.identifier == individual.identifier_family:
+                if pedigree.identifier == individual.identifier_pedigree:
                     if individual.sex == "1":
                         pedigree.set_father(individual)
                     else:
@@ -65,14 +69,11 @@ def different_families():
                     break
         else:
             for pedigree in set_different_families:
-                if pedigree.identifier == individual.identifier_family:
+                if pedigree.identifier == individual.identifier_pedigree:
                     pedigree.add_child(individual)
                     break
 
     return set_different_families
-
-
-
 
 list_families = different_families()
 
@@ -101,9 +102,6 @@ for family in list_families:
     new_html_file.close()
 """
 
-draw_specific_family("ped1")
-draw_specific_family("ped3")
-
 for family in list_families:
     pdf_mode = PDF_Model(family, None, None, None)
     pdf_mode.draw_family()
@@ -124,3 +122,28 @@ print("The individuals vertices are:\n")
 for vertex in Individual.vertices_individuals:
     print(vertex)
 """
+
+def create_pedigree_graphs(list_families):
+    pedigree_graphs = []
+
+    for family in list_families:
+        pedigree_graphs.append(Graph(family.identifier))
+
+    return pedigree_graphs
+
+list_graphs = create_pedigree_graphs(list_families)
+dictionary_individuals_graphs = defaultdict(list)
+dictionary_matings_graphs = defaultdict(list)
+dictionary_subships_graphs = defaultdict(list)
+
+for ind in list_different_individuals:
+    print(ind.identifier_pedigree, ", ", ind.identifier_human, ind.father, ind.mother)
+
+    if ind.identifier_human not in dictionary_individuals_graphs[ind.identifier_pedigree]:
+        dictionary_individuals_graphs[ind.identifier_pedigree].append(ind.identifier_human)
+    
+    if str(ind.father) + str(ind.mother) not in dictionary_matings_graphs[ind.identifier_pedigree]:
+        dictionary_matings_graphs[ind.identifier_pedigree].append(str(ind.father) + str(ind.mother))
+
+print(dictionary_individuals_graphs)
+print(dictionary_matings_graphs)

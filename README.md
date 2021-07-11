@@ -53,8 +53,21 @@ CTRL+Q
 exit()
 ```
 
-Then you should run the server while the virtual environment is still activated with the command:
+After this you should install the dependencies in the text file called Requirements.txt with:
+
+```
+pip3 install -r Requirements.txt
+```
+
+Then you should run the server. To do this, first navigate to the grand Application folder and then, while the virtual environment is still activated, run the server itself with the command:
 
 ```
 python3 manage.py runserver
+```
+
+To stop the server and deactivate the virtualenv you should just type:
+
+```
+Ctrl+C
+deactivate
 ```
