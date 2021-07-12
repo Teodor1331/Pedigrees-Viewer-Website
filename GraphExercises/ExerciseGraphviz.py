@@ -47,8 +47,8 @@ list_attributes2 = graph2.body
 print(graph1.source)
 print(graph2.source)
 
-#graph1.render('DepthFirstSearch.gv', view=True)
-#graph2.render("BredthFirstSearch.gv", view=True)
+graph1.render('DepthFirstSearch.gv', view=True)
+graph2.render("BredthFirstSearch.gv", view=True)
 
 list_edges1 = []
 list_edges2 = []
