@@ -93,35 +93,9 @@ def draw_specific_family(specific_family):
             new_html_file.close()
             break
 
-"""
-for family in list_families:
-    name_html_file = str(family.identifier) + ".html"
-    new_html_file = open(name_html_file, "w")
-    message = draw_pedigree(family)
-    new_html_file.write(message)
-    new_html_file.close()
-"""
-
 for family in list_families:
     pdf_mode = PDF_Model(family, None, None, None)
     pdf_mode.draw_family()
-
-"""
-print("The mating vertices are:\n")
-
-for vertex in Family.vertices_matings:
-    print(vertex)
-    
-print("The subships vertices are:\n")
-
-for vertex in Family.vertices_subships:
-    print(vertex)
-
-
-print("The individuals vertices are:\n")
-for vertex in Individual.vertices_individuals:
-    print(vertex)
-"""
 
 def create_pedigree_graphs(list_families):
     pedigree_graphs = []
@@ -132,12 +106,13 @@ def create_pedigree_graphs(list_families):
     return pedigree_graphs
 
 list_graphs = create_pedigree_graphs(list_families)
+
 dictionary_individuals_graphs = defaultdict(list)
 dictionary_matings_graphs = defaultdict(list)
-dictionary_subships_graphs = defaultdict(list)
+dictionary_sibships_graphs = defaultdict(list)
 
 for ind in list_different_individuals:
-    print(ind.identifier_pedigree, ", ", ind.identifier_human, ind.father, ind.mother)
+    print(ind.identifier_pedigree, ind.identifier_human, ind.father, ind.mother)
 
     if ind.identifier_human not in dictionary_individuals_graphs[ind.identifier_pedigree]:
         dictionary_individuals_graphs[ind.identifier_pedigree].append(ind.identifier_human)
@@ -145,5 +120,53 @@ for ind in list_different_individuals:
     if str(ind.father) + str(ind.mother) not in dictionary_matings_graphs[ind.identifier_pedigree]:
         dictionary_matings_graphs[ind.identifier_pedigree].append(str(ind.father) + str(ind.mother))
 
+    if str(ind.father) is not "0" and str(ind.mother) is not "0":
+        dictionary_sibships_graphs[ind.identifier_pedigree].append(str(ind.father) + str(ind.mother))
+
 print(dictionary_individuals_graphs)
 print(dictionary_matings_graphs)
+print(dictionary_sibships_graphs)
+
+for individual in dictionary_individuals_graphs:
+    chosen_index = -1
+
+    for i in range(len(list_graphs)):
+        if list_graphs[i].identifier_pedigree == individual:
+            chosen_index = i
+            break
+
+    if chosen_index != -1:
+        for ind in dictionary_individuals_graphs[individual]:
+            list_graphs[chosen_index].add_individual(ind)
+
+
+for mating in dictionary_matings_graphs:
+    chosen_index = -1
+
+    for i in range(len(list_graphs)):
+        if list_graphs[i].identifier_pedigree == mating:
+            chosen_index = i
+            break
+
+    if chosen_index != -1:
+        for mat in dictionary_matings_graphs[mating]:
+            list_graphs[chosen_index].add_mating(mat)
+
+
+for sibship in dictionary_sibships_graphs:
+    chosen_index = -1
+
+    for i in range(len(list_graphs)):
+        if list_graphs[i].identifier_pedigree == sibship:
+            chosen_index = i
+            break
+
+    if chosen_index != -1:
+        for sib in dictionary_sibships_graphs[sibship]:
+            list_graphs[chosen_index].add_sibship(sib)
+
+
+for graph in list_graphs:
+    print(graph.vertices_individuals)
+    print(graph.vertices_matings)
+    print(graph.vertices_sibships)

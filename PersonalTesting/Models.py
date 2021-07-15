@@ -11,6 +11,9 @@ class Individual():
         self.marker1 = marker1
         self.marker2 = marker2
 
+    def set_generatation(self, generationg_number):
+        self.generation_number = generationg_number
+
     def __repr__(self):
         return "Identifer Family " + str(self.identifier_pedigree) + "\nIdentifier Human " + str(self.identifier_human) + "\nFather " + str(self.father) + "\nMother " + str(self.mother) + "\nSex " + str(self.sex) + "\nTreat " + str(self.treat)
 
@@ -55,9 +58,9 @@ class Graph():
     def __init__(self, identifier_pedigree):
         self.identifier_pedigree = identifier_pedigree
         self.graph = nx.interval_graph([])
-        self.vertices_individuals = set()
-        self.vertices_matings = set()
-        self.vertices_sibships = set()
+        self.vertices_individuals = list()
+        self.vertices_matings = list()
+        self.vertices_sibships = list()
 
     def add_individual(self, individual):
         self.vertices_individuals.append(individual)
@@ -66,4 +69,4 @@ class Graph():
         self.vertices_matings.append(mating)
 
     def add_sibship(self, sibship):
-        self.vertices_sibshi
+        self.vertices_sibships.append(sibship)
